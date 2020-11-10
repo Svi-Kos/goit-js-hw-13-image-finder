@@ -32,14 +32,6 @@ input {
   border-radius: 5px;
 }
 
-.button.is-hidden {
-  display: none;
-}
-
-.button > .spinner.is-hidden {
-  display: none;
-}
-
 /* Image List */
 .gallery {
   display: grid;
