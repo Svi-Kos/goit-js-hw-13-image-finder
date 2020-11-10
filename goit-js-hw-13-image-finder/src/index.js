@@ -17,7 +17,7 @@ refs.searchForm.addEventListener('input', debounce(onSearch, 500));
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 refs.imagesContainer.addEventListener('click', showLargeImage);
 
-function onSearch(event) {
+async function onSearch(event) {
   const form = event.target;
 
   imagesApiService.query = form.value;
@@ -25,20 +25,24 @@ function onSearch(event) {
     return alert('Please enter a more specific query!');
   }
   imagesApiService.resetPage();
-  imagesApiService.fetchImages().then(hits => {
+  const fetchIM = await imagesApiService.fetchImages().then(hits => {
     if (hits.length === 0) {
       return alert('Please enter a more specific query!');
     }
     clearImagesContainer();
     appendImagesMarkup(hits);
   });
+
+  return fetchIM;
 }
 
-function onLoadMore() {
-  imagesApiService
+async function onLoadMore() {
+  const moreImages = await imagesApiService
     .fetchImages()
     .then(appendImagesMarkup)
     .then(scrollToNewElements);
+
+  return moreImages;
 }
 
 function appendImagesMarkup(hits) {
@@ -65,7 +69,6 @@ function scrollToNewElements() {
 }
 
 function showLargeImage(e) {
-  console.log(e.target.src);
   const instance = basicLightbox.create(`
   <img src="${e.target.src}" width="800"
       height="600">
