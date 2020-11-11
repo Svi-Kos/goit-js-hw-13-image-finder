@@ -12,13 +12,11 @@ export default class ImagesApiService {
     const url = `${BASE_URL}/?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=${ITEMS_PER_PAGE}&key=${API_KEY}`;
 
     const response = await fetch(url);
-    const newImageContainer = await response.json().then(({ hits }) => {
+    return await response.json().then(({ hits }) => {
       this.page += 1;
 
       return hits;
     });
-
-    return newImageContainer;
   }
 
   resetPage() {

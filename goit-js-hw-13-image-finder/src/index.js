@@ -25,24 +25,20 @@ async function onSearch(event) {
     return alert('Please enter a more specific query!');
   }
   imagesApiService.resetPage();
-  const fetchIM = await imagesApiService.fetchImages().then(hits => {
+  return await imagesApiService.fetchImages().then(hits => {
     if (hits.length === 0) {
       return alert('Please enter a more specific query!');
     }
     clearImagesContainer();
     appendImagesMarkup(hits);
   });
-
-  return fetchIM;
 }
 
 async function onLoadMore() {
-  const moreImages = await imagesApiService
+  return await imagesApiService
     .fetchImages()
     .then(appendImagesMarkup)
     .then(scrollToNewElements);
-
-  return moreImages;
 }
 
 function appendImagesMarkup(hits) {
@@ -71,7 +67,7 @@ function scrollToNewElements() {
 function showLargeImage(e) {
   const instance = basicLightbox.create(`
   <img src="${e.target.src}" width="800"
-      height="600">
+      height="600" alt="${e.target.alt}">
   `);
 
   instance.show();
